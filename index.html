@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vacaciones Vectio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#f4f6f9; --surface:#ffffff; --ink:#18212f; --muted:#5d6b80; --line:#dde3ec; --wknd:#eef1f6; --hol:#ebe6f8;
+  --dani:#23995a; --free:#2f6fe0; --cande:#c2379b; --focus:#2f6fe0; --warn:#b45309; --warnbg:#fff4e0;
+  --display:"Space Grotesk","Segoe UI",system-ui,sans-serif; --body:"Inter","Segoe UI",system-ui,sans-serif; color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#0f141c; --surface:#171e29; --ink:#e8edf5; --muted:#9aa8bc; --line:#2a3443; --wknd:#131a24; --hol:#2a2540;
+  --dani:#4cc27d; --free:#6aa0ff; --cande:#ef6fc8; --focus:#6aa0ff; --warn:#f3b25c; --warnbg:#2b2214; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);padding:20px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:28px;letter-spacing:-.01em} h2{font-size:18px}
+.sub{color:var(--muted);margin:4px 0 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.tabs{display:inline-flex;flex-wrap:wrap;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;align-self:flex-start}
+.tab{border:0;background:transparent;color:var(--muted);font:600 14px var(--body);padding:9px 18px;border-radius:9px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.picker{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;font:500 14px var(--body);cursor:pointer}
+.chip i{width:12px;height:12px;border-radius:50%;background:var(--c)}
+.chip[aria-pressed="true"]{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c);font-weight:600}
+.form{display:flex;flex-direction:column;gap:18px;max-width:640px}
+.step{display:flex;flex-direction:column;gap:8px} .step h2{font-size:15px}
+.dates{display:flex;flex-wrap:wrap;gap:12px}
+.dates label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+input[type=date],input[type=text]{font:500 15px var(--body);padding:9px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);min-width:150px}
+textarea{width:100%;min-height:150px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);resize:vertical}
+.btn{border:0;border-radius:10px;background:var(--pc,var(--ink));color:#fff;font:600 15px var(--body);padding:11px 20px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.alt{background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
+.btn:hover{filter:brightness(1.08)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.msg{font-size:14px;min-height:20px} .msg.err{color:var(--warn)}
+.note{font-size:13px;color:var(--muted);margin:8px 0 0}
+.mine{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.mine li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.rm{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 12px;font:500 13px var(--body);cursor:pointer}
+.rm:hover{border-color:var(--warn);color:var(--warn)}
+.dirty{background:var(--warnbg);border:1px solid var(--warn);color:var(--warn);border-radius:8px;padding:8px 12px;font-size:14px}
+ol.how{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.yearnav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.yearnav h2{font-size:24px;min-width:70px;text-align:center;font-variant-numeric:tabular-nums}
+.nb{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:7px 14px;font:600 15px var(--body);cursor:pointer}
+.nb:hover{border-color:var(--ink)}
+.people{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.pc h3{display:flex;align-items:center;gap:8px;font-size:16px}
+.pc h3 i{width:12px;height:12px;border-radius:50%;background:var(--c)}
+.pc ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:3px;font-size:14px}
+.pc .none{color:var(--muted);font-size:14px;margin-top:8px}
+.pc small{color:var(--muted)}
+.overlap{border-color:var(--warn);background:var(--warnbg)} .overlap h2{font-size:15px;color:var(--warn)}
+.overlap ul{margin:8px 0 0;padding-left:18px;font-size:14px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);margin-bottom:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:5px;background:var(--c)}
+.legend i.o{height:12px;width:12px;background:transparent;box-shadow:inset 0 0 0 2px var(--warn);border-radius:3px}
+.legend i.h{height:12px;width:12px;background:var(--hol);border-radius:3px;outline:1px solid var(--line)}
+.months{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.month h3{font-size:15px;margin-bottom:8px;text-transform:capitalize}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.dow{font-size:11px;text-align:center;color:var(--muted);padding-bottom:2px}
+.d{position:relative;aspect-ratio:1/1;border-radius:6px;background:var(--surface);font:500 12.5px var(--body);font-variant-numeric:tabular-nums;padding:3px 0 0 5px;outline:1px solid var(--line);outline-offset:-1px;overflow:hidden;min-width:0}
+.d.we{background:var(--wknd);color:var(--muted);outline-color:transparent}
+.d.empty{background:transparent;outline:0}
+.d.hol,.d.hol.we{background:var(--hol)}
+.d.today{outline:2px solid var(--ink);outline-offset:-2px;font-weight:700}
+.d.multi{box-shadow:inset 0 0 0 2px var(--warn)}
+.fl{position:absolute;top:2px;right:3px;font:600 8.5px/1 var(--body);color:var(--muted)}
+.bars{position:absolute;left:0;right:0;bottom:0}
+.bars b{display:block;height:5px;background:var(--c)}
+.hols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.hols h3{font-size:15px;margin-bottom:8px}
+.hols ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;font-size:14px}
+.hols li{display:flex;gap:10px} .hols li span:first-child{min-width:84px;color:var(--muted);font-variant-numeric:tabular-nums}
+.exp{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.exp .card{display:flex;flex-direction:column;gap:8px}
+.url{font:12.5px ui-monospace,Menlo,Consolas,monospace;word-break:break-all;color:var(--muted)}
+details{border:1px solid var(--line);border-radius:8px;padding:10px 14px;background:var(--surface)} summary{cursor:pointer;font-weight:600}
+details p,details ol{font-size:14px;margin:8px 0 0}
+.banner{border:1px solid var(--warn);background:var(--warnbg);color:var(--warn);border-radius:10px;padding:10px 14px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Vacaciones Vectio</h1>
+    <p class="sub">Cada uno carga sus fechas. Todos ven quién está de vacaciones y cuándo.</p>
+  </header>
+  <div class="banner" id="banner" hidden></div>
+
+  <div class="tabs" role="tablist" aria-label="Secciones">
+    <button type="button" class="tab" role="tab" id="tab-cal" aria-controls="pane-cal" aria-selected="true">Calendario del equipo</button>
+    <button type="button" class="tab" role="tab" id="tab-load" aria-controls="pane-load" aria-selected="false">Cargar mis vacaciones</button>
+    <button type="button" class="tab" role="tab" id="tab-exp" aria-controls="pane-exp" aria-selected="false">Pasar a mi calendario</button>
+  </div>
+
+  <section id="pane-cal" role="tabpanel" aria-labelledby="tab-cal" style="display:flex;flex-direction:column;gap:22px">
+    <div class="yearnav"><button type="button" class="nb" id="prev" aria-label="Año anterior">‹</button><h2 id="yr"></h2><button type="button" class="nb" id="next" aria-label="Año siguiente">›</button><button type="button" class="nb" id="today">Hoy</button></div>
+    <div class="people" id="people"></div>
+    <div id="overlap" class="card overlap" hidden></div>
+    <div><div class="legend" id="legend"></div><div class="months" id="months"></div></div>
+    <div class="card"><h2 id="holtitle" style="margin-bottom:10px"></h2><div class="hols" id="hols"></div>
+      <p class="note">Feriados nacionales calculados por regla. No incluye los fines de semana largos que decreta el Gobierno argentino ni los feriados autonómicos o locales de España. Los puentes se suman en data/extras.json.</p></div>
+  </section>
+
+  <section id="pane-load" role="tabpanel" aria-labelledby="tab-load" class="card" hidden>
+    <div class="form">
+      <div class="step"><h2>1. ¿Quién sos?</h2><div class="picker" id="picker" role="group" aria-label="Quién sos"></div></div>
+      <div class="step"><h2>2. ¿Qué días te tomás?</h2>
+        <div class="dates">
+          <label for="from">Desde<input type="date" id="from"></label>
+          <label for="to">Hasta (inclusive)<input type="date" id="to"></label>
+          <label for="nota">Nota (opcional)<input type="text" id="nota" maxlength="60" placeholder="Ej: viaje"></label>
+        </div>
+        <div class="row"><button type="button" class="btn" id="add">Agregar a mi lista</button></div>
+        <div class="msg" id="msg" aria-live="polite"></div>
+      </div>
+      <div class="step"><h2 id="minetitle"></h2><ul class="mine" id="mine"></ul></div>
+      <div class="dirty" id="dirty" hidden>Hay cambios que todavía no están guardados en GitHub. Seguí los pasos de abajo.</div>
+      <div class="step"><h2>3. Guardar en GitHub</h2>
+        <ol class="how">
+          <li>Copiá el texto de abajo.</li>
+          <li>Abrí tu archivo en GitHub con el botón.</li>
+          <li>Seleccioná todo, pegá, y apretá “Commit changes”.</li>
+        </ol>
+        <textarea id="json" readonly aria-label="Contenido actualizado de tu archivo"></textarea>
+        <div class="row"><button type="button" class="btn alt" id="copy">Copiar texto</button><a class="btn" id="gh" target="_blank" rel="noopener">Abrir mi archivo en GitHub</a></div>
+        <div class="msg" id="copymsg" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pane-exp" role="tabpanel" aria-labelledby="tab-exp" hidden style="display:flex;flex-direction:column;gap:16px">
+    <div class="exp" id="exp"></div>
+    <details><summary>Cómo suscribirse en Google Calendar</summary>
+      <ol><li>Copiá el enlace de suscripción de la tarjeta.</li><li>En Google Calendar, a la izquierda, en “Otros calendarios” apretá “+” y elegí “Desde URL”.</li><li>Pegá el enlace y agregá el calendario.</li></ol>
+      <p>Google actualiza los calendarios suscriptos cada varias horas, a veces hasta un día. Con el botón “Descargar .ics” importás las fechas una sola vez, pero no se actualizan solas.</p></details>
+    <details><summary>Cómo suscribirse en Outlook y Teams</summary>
+      <ol><li>Copiá el enlace de suscripción.</li><li>En Outlook (web o escritorio): Agregar calendario, luego “Suscribirse desde la web”, y pegá el enlace.</li><li>Ese calendario también aparece en la pestaña Calendario de Teams, porque Teams usa el calendario de Outlook.</li></ol></details>
+    <p class="note">Los enlaces de suscripción solo funcionan cuando la página está publicada en GitHub Pages. Si el repositorio es privado, Google y Outlook no pueden leerlos; en ese caso usá los archivos .ics descargados.</p>
+  </section>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
